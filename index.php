@@ -19,7 +19,12 @@ $controller = "home";
 
 $view = "index";
 
-$param = array();
+$pos = strpos($url, "?");
+
+if($pos > 0){
+    $url = substr($url,0, strpos($url,"?"));
+}
+
 
 
 $a = explode("/",$url);

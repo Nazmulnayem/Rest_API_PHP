@@ -1,0 +1,65 @@
+<!--<form  action="http://localhost/Raw_php_Rest_API/Rest_API_PHP/Country" method="post">
+
+    <input type="hidden" name="method" value="post">
+    <label>Name</label>
+    <input type="text" name="name" value="">
+    <input type="submit" name="submit" value="Create" onclick="">
+
+</form> -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+
+<script>
+  function loadData() {
+      $('#content').append('<table class="table-responsive">');
+      $('#content').append('<tr><th>Name</th><th>#</th></tr>');
+      $.ajax({
+          type: 'get',
+          url:'http://localhost/Raw_php_Rest_API/Rest_API_PHP/country',
+          dataType: 'json',
+          success: function (countries) {
+              $.each(countries, function (i,country) {
+                  $('#content').append('<tr><td>' + country.name + '</td><td><a href="country_edit.html?id='+country.id+'">Edit</a> | <a  onclick="deleteData(\''+ country.id +'\')">Delete</a>  </td> </tr>');
+
+              });
+
+          },
+          error: function (ex) {
+              alert('failed to retrieve states.' + ex);
+
+          }
+      });
+      $('#content').append('</table>');
+  }
+
+    function deleteData(id){
+        $.ajax({
+            type: 'delete',
+            url:'http://localhost/Raw_php_Rest_API/Rest_API_PHP/country',
+            dataType: 'json',
+            data:{ id: id},
+            success: function (data) {
+                if(data.result == 1){
+                 alert(data.message);
+                    location.reload();
+                }
+            },
+            error: function (ex) {
+                alert('failed to retrieve states.' + ex);
+
+            }
+        })
+    }
+    $(document).ready(function(){
+
+              loadData();
+
+        });
+
+</script>
+
+<div class="container mt-5 justify-content-center" id="content" >
+    <div><a href="country_new.html">New Entry</a></div>
+
+
+</div>

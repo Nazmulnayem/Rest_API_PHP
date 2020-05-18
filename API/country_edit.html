@@ -1,0 +1,68 @@
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+
+<script>
+
+
+    function getParam(name) {
+        url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return '0';
+        if (!results[2]) return '0';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+
+
+    $(document).ready(function(){
+       var id = getParam("id");
+        $.ajax({
+            type: 'get',
+            url:'http://localhost/Raw_php_Rest_API/Rest_API_PHP/country',
+            dataType: 'json',
+            data:{ id: id },
+            success: function (countries) {
+                $.each(countries, function (i,country) {
+                    $('#name').val(country.name);
+
+                });
+
+            },
+            error: function (ex) {
+                alert('failed to retrieve states.' + ex);
+
+            }
+        });
+
+    });
+
+    function update(){
+            var id = getParam("id");
+            $.ajax({
+                type: 'put',
+                url:'http://localhost/Raw_php_Rest_API/Rest_API_PHP/country',
+                dataType: 'json',
+                data:{ id: id, name: $('#name').val()},
+                success: function (data) {
+                    if(data.result == 1){
+                        alert(data.message);
+                    }
+                },
+                error: function (ex) {
+                    alert(ex.readAsText);
+
+                }
+
+            });
+    };
+
+</script>
+
+
+<form>
+    <label>Name</label>
+    <input type="text" id="name" value="">
+    <input type="button" id="submit" onclick="update()" value="Update">
+</form>

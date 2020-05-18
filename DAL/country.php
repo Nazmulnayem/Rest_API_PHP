@@ -8,7 +8,9 @@ class country
         $cn = mysqli_connect("localhost","root","","rest_api");
         $sql = "select id, name from country";
         if($this->id > 0)
-            $sql .= "where id =".$this->id;
+        {
+            $sql .= " where id = ".$this->id;
+        }
 
         $table =mysqli_query($cn,$sql);
 

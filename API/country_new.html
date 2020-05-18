@@ -1,0 +1,33 @@
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<script type="text/javascript" src="js/jquery-3.5.1.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#submit').click(function () {
+            $.ajax({
+                type: 'post',
+                url:'http://localhost/Raw_php_Rest_API/Rest_API_PHP/country',
+                dataType: 'json',
+                data:{ name: $('#name').val()},
+                success: function (data) {
+                    if(data.result == 1){
+                        $('#name').val('');
+                    }
+                },
+                error: function (ex) {
+                    alert('failed to retrieve states.' + ex);
+
+                }
+            });
+        });
+
+    });
+
+</script>
+
+
+<form>
+    <label>Name</label>
+    <input type="text" id="name" value="">
+    <input type="button" id="submit" value="Create">
+</form>
